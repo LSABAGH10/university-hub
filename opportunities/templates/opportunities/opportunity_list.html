@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}الفرص والتدريب{% endblock %}
+{% block content %}
+<style>
+    .container { width: 90%; max-width: 1200px; margin: 20px auto; }
+    .opportunity-card { display: block; background-color: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; text-decoration: none; color: #333; margin-bottom: 15px; transition: box-shadow 0.2s; }
+    .opportunity-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+</style>
+<div class="container">
+    <h1>الفرص والتدريب</h1>
+    {% for opportunity in opportunities %}
+        <a href="{% url 'opportunity-detail' opportunity.pk %}" class="opportunity-card">
+            <h3>{{ opportunity.title }}</h3>
+            <p><strong>الشركة:</strong> {{ opportunity.company_name }} | <strong>النوع:</strong> {{ opportunity.get_opportunity_type_display }}</p>
+        </a>
+    {% empty %}
+        <p>لا توجد فرص متاحة حالياً.</p>
+    {% endfor %}
+</div>
+{% endblock %}

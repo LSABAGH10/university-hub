@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+        
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<style>
+    .container { 
+        width: 90%; 
+        max-width: 900px; 
+        margin: 20px auto; 
+    }
+    .course-header { 
+        background-color: #343a40; 
+        color: white; 
+        padding: 30px; 
+        border-radius: 8px; 
+        margin-bottom: 20px; 
+    }
+    .course-header h1 {
+        margin: 0;
+        font-size: 2.5em;
+    }
+    .course-header p {
+        margin: 5px 0 15px 0;
+        opacity: 0.8;
+    }
+    .materials-section, .qa-section { 
+        background-color: white; 
+        border: 1px solid #ddd; 
+        border-radius: 8px; 
+        padding: 20px; 
+        margin-top: 20px;
+    }
+    .material-item, .question-item { 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px; 
+        border-bottom: 1px solid #eee; 
+    }
+    .material-item:last-child, .question-item:last-child { 
+        border-bottom: none; 
+    }
+    .button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .button.enroll { 
+        background-color: #28a745; 
+    }
+    .button.unenroll { 
+        background-color: #dc3545; 
+    }
+    .qa-header { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+    }
+    .question-item a {
+        text-decoration: none;
+        color: #0056b3;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container">
+    <div class="course-header">
+        <h1>{{ course.title }}</h1>
+        <p>{{ course.description|linebreaks }}</p>
+        
+        <div class="course-actions">
+            {% if user.is_authenticated %}
+                {% if user in course.enrolled_students.all %}
+                    <a href="{% url 'enroll-course' course.pk %}" class="button unenroll">إلغاء الالتحاق</a>
+                {% else %}
+                    <a href="{% url 'enroll-course' course.pk %}" class="button enroll">التحق بهذا المقرر</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="materials-section">
+        <h2>المواد التعليمية</h2>
+        {% for material in course.materials.all %}
+            <div class="material-item">
+                <span>
+                    <strong>{{ material.get_material_type_display }}:</strong> {{ material.title }}
+                </span>
+                {% if user in course.enrolled_students.all %}
+                    <a href="{{ material.file.url }}" download class="button">تحميل</a>
+                {% else %}
+                    <span><i>يجب الالتحاق بالمقرر للتحميل</i></span>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>لا توجد مواد تعليمية لهذا المقرر بعد.</p>
+        {% endfor %}
+    </div>
+
+    <div class="qa-section">
+        <div class="qa-header">
+            <h2>الأسئلة والأجوبة</h2>
+            {% if user in course.enrolled_students.all %}
+                <a href="{% url 'ask-question' course.pk %}" class="button">اطرح سؤالاً جديداً</a>
+            {% endif %}
+        </div>
+        <hr>
+        {% for question in course.questions.all %}
+            <div class="question-item">
+                <a href="{% url 'question-detail' question.pk %}">
+                    <strong>{{ question.title }}</strong>
+                </a>
+                <small>بواسطة: {{ question.author.username }}</small>
+            </div>
+        {% empty %}
+            <p>كن أول من يطرح سؤالاً في هذا المقرر!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

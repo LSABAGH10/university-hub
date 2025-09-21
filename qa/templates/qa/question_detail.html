@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block content %}
+<style>
+    .container { max-width: 900px; margin: 20px auto; }
+    .question-card, .answer-card, .add-answer-card { background-color: white; border: 1px solid #ddd; border-radius: 8px; padding: 25px; margin-bottom: 20px; }
+    .card-header { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+    .card-header small { color: #666; }
+    .card-body p { line-height: 1.7; }
+    .answers-count { margin-bottom: 20px; }
+    button { padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: Cairo, sans-serif; }
+</style>
+
+<div class="container">
+    <div class="question-card">
+        <div class="card-header">
+            <h2>{{ question.title }}</h2>
+            <small>طرح بواسطة: {{ question.author.username }} في {{ question.created_at|date:"d M Y" }}</small>
+        </div>
+        <div class="card-body">
+            <p>{{ question.body|linebreaks }}</p>
+        </div>
+    </div>
+
+    <h3 class="answers-count">{{ answers.count }} إجابة</h3>
+    {% for answer in answers %}
+        <div class="answer-card">
+            <div class="card-header">
+                <small>أجاب بواسطة: {{ answer.author.username }} في {{ answer.created_at|date:"d M Y" }}</small>
+            </div>
+            <div class="card-body">
+                <p>{{ answer.body|linebreaks }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>لا توجد إجابات بعد. كن أول من يجيب!</p>
+    {% endfor %}
+
+    <div class="add-answer-card">
+        <h3>أضف إجابتك</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ answer_form.as_p }}
+            <button type="submit">أضف الإجابة</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

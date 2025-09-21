@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}تسجيل الدخول{% endblock %}
+
+{% block content %}
+<style>
+    .login-container { background-color: white; margin: 50px auto; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 400px; }
+    h1 { text-align: center; color: #333; }
+    form p { margin-bottom: 15px; }
+    form label { display: block; margin-bottom: 5px; font-weight: bold; }
+    form input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    button { width: 100%; padding: 15px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 1.1em; cursor: pointer; }
+</style>
+<div class="login-container">
+    <h1>تسجيل الدخول</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">دخول</button>
+    </form>
+</div>
+{% endblock %}

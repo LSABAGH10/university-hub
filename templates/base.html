@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}منصة الطالب{% endblock %}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        body { font-family: Cairo, sans-serif; background-color: #f4f7f6; margin: 0; color: #333; }
+        .header { background-color: #ffffff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
+        .header .logo { font-weight: bold; font-size: 1.5em; text-decoration: none; color: #333; }
+        .header .nav-links a { margin-right: 20px; text-decoration: none; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">[شعار الموقع]</a>
+        <div class="nav-links">
+    <a href="{% url 'course-list' %}">المقررات</a>
+    <a href="{% url 'opportunity-list' %}">الفرص والتدريب</a> <a href="{% url 'offer-list' %}">عروض للطلاب</a>
+    {% if user.is_authenticated %}
+        {% else %}
+        {% endif %}
+</div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

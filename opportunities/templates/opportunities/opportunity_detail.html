@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}{{ opportunity.title }}{% endblock %}
+{% block content %}
+<style>
+    .container { width: 90%; max-width: 900px; margin: 20px auto; }
+    .opportunity-content { background-color: white; border: 1px solid #ddd; border-radius: 8px; padding: 30px; }
+    .apply-button { display: inline-block; background-color: #28a745; color: white; padding: 15px 30px; margin-top: 20px; text-decoration: none; border-radius: 5px; font-size: 1.2em; }
+</style>
+<div class="container">
+    <div class="opportunity-content">
+        <h1>{{ opportunity.title }}</h1>
+        <p><strong>الشركة:</strong> {{ opportunity.company_name }} | <strong>الموقع:</strong> {{ opportunity.location }}</p>
+        <hr>
+        <p>{{ opportunity.description|linebreaks }}</p>
+        <a href="{{ opportunity.link_to_apply }}" target="_blank" class="apply-button">التقديم الآن</a>
+    </div>
+</div>
+{% endblock %}

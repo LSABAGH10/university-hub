@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}عروض وخصومات الطلاب{% endblock %}
+{% block content %}
+<style>
+    .container { width: 90%; max-width: 1200px; margin: 20px auto; }
+    .offer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+    .offer-card { background-color: white; border: 1px solid #ddd; border-radius: 8px; display: flex; flex-direction: column; }
+    .offer-card img { width: 100%; height: 150px; object-fit: contain; padding: 10px; border-bottom: 1px solid #eee; }
+    .offer-content { padding: 20px; flex-grow: 1; }
+    .promo-code { background-color: #e9ecef; border: 2px dashed #007bff; padding: 10px; text-align: center; font-weight: bold; margin-top: 15px; }
+</style>
+<div class="container">
+    <h1>عروض وخصومات حصرية</h1>
+    <div class="offer-grid">
+        {% for offer in offers %}
+            <div class="offer-card">
+                <img src="{{ offer.logo.url }}" alt="شعار {{ offer.company_name }}">
+                <div class="offer-content">
+                    <h3>{{ offer.offer_title }}</h3>
+                    <p><small>مقدم من: {{ offer.company_name }}</small></p>
+                    <p>{{ offer.offer_details }}</p>
+                    {% if offer.promo_code %}
+                        <div class="promo-code">
+                            استخدم كود: {{ offer.promo_code }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p>لا توجد عروض متاحة حالياً. تفقد هذه الصفحة لاحقاً!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
