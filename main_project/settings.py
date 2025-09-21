@@ -148,3 +148,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ...
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# main_project/settings.py
+# ... (باقي الإعدادات) ...
+
+# تحديد مسار تجميع الملفات الثابتة للبيئة الإنتاجية
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
