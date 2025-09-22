@@ -1,7 +1,7 @@
 # core/admin.py
 
 from django.contrib import admin
-from .models import Advertisement, Testimonial # <-- تأكد من وجود Testimonial هنا
+from .models import Advertisement, Testimonial
 
 @admin.register(Advertisement)
 class AdvertisementAdmin(admin.ModelAdmin):
