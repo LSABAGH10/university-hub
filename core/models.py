@@ -19,3 +19,12 @@ class Advertisement(models.Model):
 
     def __str__(self):
         return self.offer_title
+
+class Testimonial(models.Model):
+    student_name = models.CharField(max_length=100, verbose_name="اسم الطالب")
+    student_details = models.CharField(max_length=100, verbose_name="تفاصيل الطالب (مثال: سنة 3)")
+    quote = models.TextField(verbose_name="نص التقييم")
+    is_featured = models.BooleanField(default=False, verbose_name="هل يظهر في الصفحة الرئيسية؟")
+
+    def __str__(self):
+        return self.student_name

@@ -5,11 +5,11 @@ from .models import Course, Material
 
 class MaterialInline(admin.TabularInline):
     model = Material
-    extra = 1 # لعرض حقل إضافي واحد لإضافة مادة تعليمية جديدة مباشرة من صفحة المقرر
+    extra = 1
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'course_code', 'academic_year')
+    list_display = ('title', 'course_code', 'academic_year', 'is_demo')
     search_fields = ('title', 'course_code')
     inlines = [MaterialInline]
 

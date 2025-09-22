@@ -1,22 +1,43 @@
 {% extends 'base.html' %}
-
 {% block title %}تسجيل الدخول{% endblock %}
 
 {% block content %}
-<style>
-    .login-container { background-color: white; margin: 50px auto; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 400px; }
-    h1 { text-align: center; color: #333; }
-    form p { margin-bottom: 15px; }
-    form label { display: block; margin-bottom: 5px; font-weight: bold; }
-    form input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-    button { width: 100%; padding: 15px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 1.1em; cursor: pointer; }
-</style>
-<div class="login-container">
-    <h1>تسجيل الدخول</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">دخول</button>
-    </form>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <h1 class="card-title text-center mb-4">تسجيل الدخول</h1>
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            البريد الإلكتروني أو كلمة السر غير صحيحة. حاول مرة أخرى.
+                        </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">البريد الإلكتروني</label>
+                            <input type="text" name="username" class="form-control" required id="id_username">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">كلمة السر</label>
+                            <input type="password" name="password" class="form-control" required id="id_password">
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">دخول</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">ليس لديك حساب؟ <a href="{% url 'register' %}">أنشئ حساباً جديداً</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

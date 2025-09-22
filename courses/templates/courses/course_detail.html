@@ -16,14 +16,6 @@
         border-radius: 8px; 
         margin-bottom: 20px; 
     }
-    .course-header h1 {
-        margin: 0;
-        font-size: 2.5em;
-    }
-    .course-header p {
-        margin: 5px 0 15px 0;
-        opacity: 0.8;
-    }
     .materials-section, .qa-section { 
         background-color: white; 
         border: 1px solid #ddd; 
@@ -68,6 +60,13 @@
 </style>
 
 <div class="container">
+
+    {% if is_guest %}
+    <div class="alert alert-info my-3">
+        أنت تتصفح كضيف. <a href="{% url 'register' %}" class="alert-link">أنشئ حساباً</a> للالتحاق بالمقرر والتفاعل الكامل.
+    </div>
+    {% endif %}
+
     <div class="course-header">
         <h1>{{ course.title }}</h1>
         <p>{{ course.description|linebreaks }}</p>
@@ -85,26 +84,29 @@
 
     <div class="materials-section">
         <h2>المواد التعليمية</h2>
-        {% for material in course.materials.all %}
-            <div class="material-item">
-                <span>
-                    <strong>{{ material.get_material_type_display }}:</strong> {{ material.title }}
-                </span>
-                {% if user in course.enrolled_students.all %}
+        
+        {% if user.is_authenticated and user in course.enrolled_students.all or is_guest and course.is_demo %}
+            {% for material in course.materials.all %}
+                <div class="material-item">
+                    <span>
+                        <strong>{{ material.get_material_type_display }}:</strong> {{ material.title }}
+                    </span>
                     <a href="{{ material.file.url }}" download class="button">تحميل</a>
-                {% else %}
-                    <span><i>يجب الالتحاق بالمقرر للتحميل</i></span>
-                {% endif %}
+                </div>
+            {% empty %}
+                <p>لا توجد مواد تعليمية لهذا المقرر بعد.</p>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-warning">
+                يجب عليك الالتحاق بالمقرر أولاً لتتمكن من رؤية وتحميل المواد التعليمية.
             </div>
-        {% empty %}
-            <p>لا توجد مواد تعليمية لهذا المقرر بعد.</p>
-        {% endfor %}
+        {% endif %}
     </div>
 
     <div class="qa-section">
         <div class="qa-header">
             <h2>الأسئلة والأجوبة</h2>
-            {% if user in course.enrolled_students.all %}
+            {% if user.is_authenticated and user in course.enrolled_students.all %}
                 <a href="{% url 'ask-question' course.pk %}" class="button">اطرح سؤالاً جديداً</a>
             {% endif %}
         </div>

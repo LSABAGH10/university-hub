@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'qa', 
     'core',
     'opportunities',
+    'news',
     
     # تطبيقات Django الأساسية
     'django.contrib.admin',
